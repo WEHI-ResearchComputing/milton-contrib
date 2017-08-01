@@ -48,13 +48,13 @@ Usage: qalter [-h] [-p PRIORITY] [-t WAIT_TIME] [-n NUM_ATTEMPTS] PROC_ID"
     if [ $( echo $PBS_ID | wc -c ) -eq 1 ]; then
       i=1
       while [ $( echo $PBS_ID | wc -c ) -eq 1 -a $i -lt $ATTEMPTS ]; do
-        echo "PBS node ID request failed... (attempt $i of $ATTEMPTS) Trying again in 10 seconds."
+        echo "PBS node ID request failed... (attempt $i of $ATTEMPTS) Trying again in $WAIT_TIME seconds."
         sleep $WAIT_TIME
         PBS_ID=$(curl -ks "https://hpc1-pbs.wehi.edu.au/idmapping/get_pbs_id.php?headnode=$HOSTNAME&jobid=$PROC")
         i=$(($i+1))
       done
       if [ $( echo $PBS_ID | wc -c ) -eq 1 ]; then
-        echo "PBS ID request failed for job $PROC. Skipping."
+        echo "PBS ID request failed for job $PROC. Skipping. (Is the job already building/built?)"
         continue 2
       fi
     fi
