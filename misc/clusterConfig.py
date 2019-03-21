@@ -25,6 +25,7 @@ clusters = get_as_json('http://mrm.wehi.edu.au/clusters')['clusters']
 
 # Get data for each cluster
 total_cores  = 0
+max_core     = 0
 total_ram    = 0
 host_cnt     = 0
 guest_cnt    = 0
@@ -44,6 +45,7 @@ for cluster in clusters:
 
 	for host in hosts:
 		num_cpu = host['numCpu']
+		max_core = max(max_core, num_cpu)
 		total_cores = total_cores + num_cpu
 		ram = host['memory']/1024/1024/1024
 		total_ram = total_ram + ram
@@ -57,6 +59,7 @@ print(f'Total ram: {total_ram/1024}TB')
 print(f'Physical hosts: {host_cnt}')
 print(f'Total guests: {guest_cnt}')
 print('Core details:')
+print(f'Largest memory machine: {max_ram/1024}TB')
+print(f'Largest core count: {max_core}')
 for (k, v) in core_details.items():
 	print(f'   {k} - {v} cores')
-print(f'Largest memory machine: {max_ram/1024}TB')
