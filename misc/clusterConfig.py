@@ -24,14 +24,15 @@ def increment(counter, key, value):
 clusters = get_as_json('http://mrm.wehi.edu.au/clusters')['clusters']
 
 # Get data for each cluster
-total_cores  = 0
-max_core     = 0
-total_ram    = 0
-host_cnt     = 0
-guest_cnt    = 0
-core_details = dict()
-min_ram      = sys.maxsize
-max_ram      = 0
+total_cores     = 0
+max_core        = 0
+total_ram       = 0
+host_cnt        = 0
+guest_cnt       = 0
+core_details    = dict()
+core_type_count = dict()
+min_ram         = sys.maxsize
+max_ram         = 0
 
 for cluster in clusters:
 	cluster_detail = get_as_json('http://mrm.wehi.edu.au/cluster-detail/'+cluster['name'])
@@ -44,7 +45,7 @@ for cluster in clusters:
 			guest_cnt = guest_cnt + 1
 
 	for host in hosts:
-		num_cpu = host['numCpu']
+		num_cpu = host['numCpu']/2
 		max_core = max(max_core, num_cpu)
 		total_cores = total_cores + num_cpu
 		ram = host['memory']/1024/1024/1024
@@ -52,6 +53,7 @@ for cluster in clusters:
 		min_ram = min(min_ram, ram)
 		max_ram = max(max_ram, ram)
 		increment(core_details, host['cpuModel'], num_cpu)
+		increment(core_type_count, host['cpuModel'], 1)
 
 
 print(f'Total cores: {total_cores}')
@@ -62,4 +64,5 @@ print('Core details:')
 print(f'Largest memory machine: {max_ram/1024}TB')
 print(f'Largest core count: {max_core}')
 for (k, v) in core_details.items():
-	print(f'   {k} - {v} cores')
+	cnt = core_type_count[k]
+	print(f'   x{cnt} {k} - {v} cores')
