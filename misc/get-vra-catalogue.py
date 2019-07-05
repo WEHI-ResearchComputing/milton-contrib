@@ -6,12 +6,6 @@
     based on https://github.com/kovarus/vrealize-pysdk/blob/master/get-catalog.py
 """
 
-# TODO set an environment variable that stores the auth token
-# TODO create a check for auth token env variable. If present don't prompt for password
-
-__version__ = "$Revision$"
-# $Source$
-
 import getpass
 import argparse
 import vralib
