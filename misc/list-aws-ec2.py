@@ -2,19 +2,19 @@
 
 A sample script to list EC2 instances on an AWS region using MFA.
 
-Your python environment needs boto3 and prettytable.
+Your python environment needs boto3 and prettytable installed
 
 create ~/.aws/config that looks like
 [default]
 region_name=ap-southeast-2
 output=json
 
-create ~/.aws/credentials that looks
+create ~/.aws/credentials, that is only readable by you, that looks
 [default]
 aws_access_key_id = <your id>
 aws_secret_access_key = <your secret>
 
-Other than the token, the default will work against an WEHI provisioned account.
+Other than the token, the defaults will work against an WEHI provisioned account.
 
 python3 list-aws-ec2.py --token <token>
 """
@@ -33,7 +33,7 @@ def build_parser():
                       default=None,
                       dest='token',
                       type=int,
-                      required=False)
+                      required=True)
   parser.add_argument('--account',
                       dest='account',
                       help='AWS account number. Default: 581002922631',
