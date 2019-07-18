@@ -6,7 +6,7 @@ Your python environment needs boto3 and prettytable.
 
 create ~/.aws/config that looks like
 [default]
-region_name=ap-southeast-2
+region=ap-southeast-2
 output=json
 
 create ~/.aws/credentials that looks
